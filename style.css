@@ -1,0 +1,16 @@
+body {
+    font-family: Arial, 'Times New Roman', Times, serif;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    /* Styles for screens up to 600 pixels wide */
+    body {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+}

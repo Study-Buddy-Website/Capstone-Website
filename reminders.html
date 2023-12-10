@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Buddy App - Reminders</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        
+
+        #main {
+            transition: margin-left .5s;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #e91e63; /* Pink */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        #reminderSection {
+            background-color: #fce4ec; /* Lighter Pink */
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            text-align: center;
+            width: 80%;
+        }
+
+        #reminderList {
+            margin-top: 20px;
+        }
+
+        .reminder {
+            background-color: #f8bbd0; /* Lighter Pink */
+            margin: 20px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reminder:hover {
+            background-color: #f48fb1; /* Lighter Pink on hover */
+        }
+
+        .delete-button {
+            background-color: #ff5252; /* Red */
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-reminder-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"], input[type="datetime-local"] {
+            margin: 8px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button.add-reminder {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e91e63; /* Pink */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #sidePanel a {
+            padding: 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+            border-bottom: 1px solid #fff;
+        }
+
+        #sidePanel a:last-child {
+            border-bottom: none;
+        }
+
+        #sidePanel a:hover {
+            background-color: #d81b60; 
+        }
+
+        #sidePanel .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 30px;
+        }
+
+        #sidePanel header {
+            padding: 20px;
+            text-align: center;
+            background-color: #d81b60; 
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #fff;
+        }
+
+        #sidePanel {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #e91e63; 
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidePanel">
+        <header>Study Buddy</header>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSidePanel()">&times;</a>
+        <a href="home.html">Home</a>
+        <a href="note.html">Notes</a>
+        <a href="reminders.html">Reminders</a>
+        
+    </div>
+    <div id="main">
+        <button onclick="openSidePanel()">☰ Open Sidebar</button>
+        
+        <div id="reminderSection">
+            <h2>Your Reminders:</h2>
+            
+            <div id="reminderList">
+                <div class="reminder" id="reminder1">
+                    <div>
+                        <strong>Do Math Homework</strong><br>
+                        <span>Date: 2024-01-19</span><br>
+                        <span>Time: 15:00</span>
+                    </div>
+                    <button class="delete-button" onclick="deleteReminder('reminder1')">Delete</button>
+                </div>
+
+                <div class="reminder" id="reminder2">
+                    <div>
+                        <strong>Read Chapter 5</strong><br>
+                        <span>Date: 2024-01-19</span><br>
+                        <span>Time: 10:00</span>
+                    </div>
+                    <button class="delete-button" onclick="deleteReminder('reminder2')">Delete</button>
+                </div>
+
+                <div class="reminder" id="reminder2">
+                    <div>
+                        <strong>Practice Coding</strong><br>
+                        <span>Date: 2024-01-23</span><br>
+                        <span>Time: 10:00</span>
+                    </div>
+                    <button class="delete-button" onclick="deleteReminder('reminder2')">Delete</button>
+                </div>
+                <!-- Add more reminders as needed -->
+            </div>
+
+            <!-- Add Reminder Form -->
+            <div class="add-reminder-form">
+                <input type="text" id="reminderText" placeholder="Enter your reminder">
+                <input type="datetime-local" id="reminderDateTime">
+                <button class="add-reminder" onclick="addReminder()">Add Reminder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function openSidePanel() {
+            document.getElementById("sidePanel").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeSidePanel() {
+            document.getElementById("sidePanel").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+        }
+
+        function deleteReminder(reminderId) {
+            var reminder = document.getElementById(reminderId);
+            reminder.remove();
+        }
+
+        function addReminder() {
+            var reminderText = document.getElementById('reminderText').value;
+            var reminderDateTime = document.getElementById('reminderDateTime').value;
+
+            if (reminderText && reminderDateTime) {
+                var reminderList = document.getElementById('reminderList');
+
+                // Create a new reminder element
+                var newReminder = document.createElement('div');
+                newReminder.className = 'reminder';
+
+                // Set the content of the new reminder
+                newReminder.innerHTML = `
+                    <div>
+                        <strong>${reminderText}</strong><br>
+                        <span>Date: ${new Date(reminderDateTime).toLocaleDateString()}</span><br>
+                        <span>Time: ${new Date(reminderDateTime).toLocaleTimeString()}</span>
+                    </div>
+                    <button class="delete-button" onclick="deleteReminder('${'reminder' + (reminderList.childElementCount + 1)}')">Delete</button>
+                `;
+
+                // Append the new reminder to the reminder list
+                reminderList.appendChild(newReminder);
+
+                // Clear the input fields
+                document.getElementById('reminderText').value = '';
+                document.getElementById('reminderDateTime').value = '';
+            }
+        }
+        
+        function openSidePanel() {
+            document.getElementById("sidePanel").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeSidePanel() {
+            document.getElementById("sidePanel").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+        }
+
+    </script>
+
+</body>
+</html>

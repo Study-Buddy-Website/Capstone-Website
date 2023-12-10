@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Buddy App - Notes</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #sidePanel {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #e91e63; /* Pink */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+  /* Sidebar styles */
+  #sidePanel a {
+            padding: 16px;
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+            border-bottom: 1px solid #fff;
+        }
+
+        #sidePanel a:last-child {
+            border-bottom: none;
+        }
+
+        #sidePanel a:hover {
+            background-color: #d81b60; /* Darker Pink on hover */
+        }
+
+        #sidePanel .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 30px;
+        }
+
+        /* Sidebar header styles */
+        #sidePanel header {
+            padding: 20px;
+            text-align: center;
+            background-color: #d81b60; /* Darker Pink */
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #fff;
+        }
+        
+        #sidePanel {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #e91e63; /* Pink */
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #e91e63; /* Pink */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        #noteSection {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            text-align: center;
+            width: 80%;
+        }
+
+        #categoryList {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .category {
+            background-color: #e91e63; /* Pink */
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .category:hover {
+            background-color: #d81b60; /* Darker Pink on hover */
+        }
+
+        #noteList {
+            margin-top: 20px;
+        }
+
+        .note {
+            background-color: #fce4ec; /* Lighter Pink */
+            margin: 20px;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+            width: 80%;
+        }
+
+        .note:hover {
+            background-color: #f8bbd0; /* Lighter Pink on hover */
+        }
+
+        input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button.add-note, button.add-category {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e91e63; /* Pink */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidePanel">
+        <header>Study Buddy</header>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSidePanel()">&times;</a>
+        <a href="home.html">Home</a>
+        <a href="note.html">Notes</a>
+        <a href="reminders.html">Reminders</a>
+        <!-- Add more links as needed -->
+    </div>
+    <div id="main">
+        <button onclick="openSidePanel()">☰ Open Sidebar</button>
+
+        <!-- Note Section -->
+        <div id="noteSection">
+            <h2>Your Notes:</h2>
+
+            <!-- Categories -->
+            <div id="categoryList">
+                <!-- Categories will be dynamically added here -->
+                <div class="category" onclick="showNotes('All')" oncontextmenu="deleteCategory(event)">All</div>
+                <div class="category" onclick="showNotes('Math')" oncontextmenu="deleteCategory(event)">Math</div>
+                <div class="category" onclick="showNotes('Science')" oncontextmenu="deleteCategory(event)">Science</div>
+                <!-- Add more categories as needed -->
+            </div>
+
+            <!-- Notes -->
+            <div id="noteList">
+                <!-- Notes will be dynamically added here -->
+                <div class="note" data-category="Math" oncontextmenu="deleteNote(event)">Algebra Formulas</div>
+                <div class="note" data-category="Science" oncontextmenu="deleteNote(event)">Chemistry Equations</div>
+                <!-- Add more notes as needed -->
+            </div>
+
+            <!-- Add Note Form -->
+            <input type="text" id="noteInput" placeholder="Enter your note">
+            <button class="add-note" onclick="addNote()">Add Note</button>
+
+            <!-- Add Category Form -->
+            <input type="text" id="categoryInput" placeholder="Enter new category">
+            <button class="add-category" onclick="addCategory()">Add Category</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function openSidePanel() {
+            document.getElementById("sidePanel").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+
+        function closeSidePanel() {
+            document.getElementById("sidePanel").style.width = "0";
+            document.getElementById("main").style.marginLeft= "0";
+        }
+
+        // Function to display notes based on selected category
+        function showNotes(category) {
+            var noteList = document.getElementById('noteList');
+            var notes = document.querySelectorAll('.note');
+            
+            // Hide all notes
+            notes.forEach(function(note) {
+                note.style.display = 'none';
+            });
+
+            // Show notes in the selected category
+            notes.forEach(function(note) {
+                if (note.getAttribute('data-category') === category || category === 'All') {
+                    note.style.display = 'block';
+                }
+            });
+        }
+
+        // Function to add a new note
+        function addNote() {
+            var noteInput = document.getElementById('noteInput').value;
+            var categoryList = document.getElementById('categoryList');
+            var selectedCategory = categoryList.querySelector('.category:hover');
+
+            // Create a new note element
+            var newNote = document.createElement('div');
+            newNote.classList.add('note');
+            newNote.textContent = noteInput;
+            newNote.setAttribute('data-category', selectedCategory ? selectedCategory.textContent : 'All');
+            newNote.setAttribute('oncontextmenu', 'deleteNote(event)');
+
+            // Add the new note to the note list
+            noteList.appendChild(newNote);
+
+            // Clear the input field
+            document.getElementById('noteInput').value = "";
+        }
+
+        // Function to add a new category
+        function addCategory() {
+            var categoryInput = document.getElementById('categoryInput').value;
+            var categoryList = document.getElementById('categoryList');
+
+            // Create a new category element
+            var newCategory = document.createElement('div');
+            newCategory.classList.add('category');
+            newCategory.textContent = categoryInput;
+            newCategory.setAttribute('onclick', `showNotes('${categoryInput}')`);
+            newCategory.setAttribute('oncontextmenu', 'deleteCategory(event)');
+
+            // Add the new category to the category list
+            categoryList.appendChild(newCategory);
+
+            // Clear the input field
+            document.getElementById('categoryInput').value = "";
+        }
+
+        // Function to delete a category
+        function deleteCategory(event) {
+            event.preventDefault();
+            var category = event.target.textContent;
+            var notes = document.querySelectorAll(`.note[data-category='${category}']`);
+            
+            // Remove the category and corresponding notes
+            event.target.remove();
+            notes.forEach(function(note) {
+                note.remove();
+            });
+        }
+
+        // Function to delete a note
+        function deleteNote(event) {
+            event.preventDefault();
+            event.target.remove();
+        }
+    </script>
+
+</body>
+</html>
